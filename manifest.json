@@ -1,0 +1,76 @@
+{
+  "manifest_version": 3,
+  "name": "ClaudeBuddy",
+  "version": "1.1.0",
+  "description": "🐾 Keeping an eye on your Claude usage, so you don't have to",
+  "permissions": [
+    "storage",
+    "cookies",
+    "alarms",
+    "notifications",
+    "sidePanel"
+  ],
+  "commands": {
+    "toggle-popup": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+C",
+        "mac": "Command+Shift+C"
+      },
+      "description": "Toggle ClaudeBuddy popup"
+    },
+    "toggle-sidepanel": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Toggle ClaudeBuddy sidepanel"
+    },
+    "toggle-widget": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+W",
+        "mac": "Command+Shift+W"
+      },
+      "description": "Toggle mini widget"
+    }
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/sidepanel.html"
+  },
+  "host_permissions": [
+    "https://claude.ai/*",
+    "http://127.0.0.1:27182/*"
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["src/content/claude-interceptor.ts"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/widget/widget.html",
+        "src/widget/widget.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
